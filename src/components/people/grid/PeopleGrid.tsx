@@ -7,9 +7,9 @@ export interface pages {
 }
 
 const PeopleGrid = ({ currentPage }: pages) => {
-  const { data: people, Error: error, isLoading } = UsePeoples(currentPage);
+  const { data, isLoading, error } = UsePeoples(currentPage);
   if (error) {
-    return <ErrorPage errorType="404" message={error} />;
+    return <ErrorPage errorType="404" message={error.message} />;
   }
 
   if (isLoading) {
@@ -22,13 +22,13 @@ const PeopleGrid = ({ currentPage }: pages) => {
   if (error) {
     return <ErrorPage errorType="network" message={error} />;
   }
-  if (!people.length) {
+  if (!data?.length) {
     return <ErrorPage errorType="generic" message="No people found" />;
   }
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6">
-        {people.map((person) => (
+        {data.map((person) => (
           <PeopleCard key={person.id} poeple={person} />
         ))}
       </div>

@@ -2,8 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../services/apiClient";
 import { PeopleGridProps } from "../../../types/api.types";
 import { FetchRespone } from "../../UseData";
- const getpeople=()=>
-     apiClient.get<FetchRespone<PeopleGridProps>>("person/popular").then(response=>{
+ const getpeople=(currentPage?:number)=>
+     apiClient.get<FetchRespone<PeopleGridProps>>("person/popular",{
+        params:{
+            page:currentPage
+        }
+     }).then(response=>{
         // console.log(response.data)
         return response.data.results
      }).catch(error=>{
@@ -13,8 +17,8 @@ import { FetchRespone } from "../../UseData";
     
 
  const UsePeoples =(currentPage? :number)=>useQuery({
-    queryKey:["peoples"],
-    queryFn: getpeople
+    queryKey:["peoples",currentPage],
+    queryFn:()=> getpeople(currentPage)
 })
 //  const UsePeoples =(currentPage? :number)=> UseGenericMovies<PeopleGridProps>("person/popular",{},{params:{page:currentPage}},[currentPage]);
 

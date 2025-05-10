@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "../../../services/apiClient";
 import { PeopleGridProps } from "../../../types/api.types";
 import { FetchRespone } from "../../UseData";
@@ -7,10 +7,8 @@ import { FetchRespone } from "../../UseData";
         params:{
             page:currentPage
         }
-     }).then(response=>{
-        // console.log(response.data)
-        return response.data.results
-     }).catch(error=>{
+        
+     }).then((res)=>(res.data.results)).catch(error=>{
         console.log(error)
      })
 

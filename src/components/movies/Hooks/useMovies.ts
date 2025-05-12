@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FetchMovieRespone, Movie } from "../../../types/api.types";
 import apiClient from "../../../services/apiClient";
 import { GenreProps } from "../MoviesPage";
+import { useQuery } from "@tanstack/react-query";
 
 const UseMovies=( {genre_id,sortedBy} : GenreProps)=>{
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -22,19 +23,22 @@ const UseMovies=( {genre_id,sortedBy} : GenreProps)=>{
         return 0;
       });
     }
-    useEffect(() => {
-      setIsLoading(true);
-      apiClient
-        .get<FetchMovieRespone>("/discover/movie",{params:{with_genres:genre_id}})
-        .then((response) => {
-          setMovies(getSortedResults(response.data.results,sortedBy));
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setError(error);
-          setIsLoading(false);
-        });
-    }, [genre_id,sortedBy]);
-     return {movies,isLoading,Error}
+
+return useQuery<Movie[],Error>({
+  queryKey: ['movies', genre_id],
+  queryFn: () => {
+    return apiClient.get<FetchMovieRespone>("/discover/movie", {
+      params: { with_genres: genre_id },
+    })
+      .then((response) => { 
+        return getSortedResults(response.data.results,sortedBy);
+      })
+      .catch((error) => error);
+  },
+});
+
+
+     //return {movies,isLoading,Error}
+
 }
  export  default UseMovies;

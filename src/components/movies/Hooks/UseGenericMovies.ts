@@ -3,6 +3,7 @@ import apiClient from "../../../services/apiClient";
 import { GenreProps } from "../MoviesPage";
 import { AxiosRequestConfig } from "axios";
 import { FetchRespone } from "../../UseData";
+import { useQuery } from "@tanstack/react-query";
 
 const UseGenericMovies=<T extends Record<string, any>>( endpoint:string,  {sortedBy}: GenreProps,requestConfig?:AxiosRequestConfig,Deps?:any[])=>{
 const [data, setMovies] = useState<T[]>([]);
@@ -23,6 +24,7 @@ const [data, setMovies] = useState<T[]>([]);
           return 0;
         });
       }
+ 
     useEffect(() => {
         setIsLoading(true);
         apiClient

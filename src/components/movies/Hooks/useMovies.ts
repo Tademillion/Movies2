@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { FetchMovieRespone, Movie } from "../../../types/api.types";
+import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../services/apiClient";
+import { FetchMovieRespone, Movie } from "../../../types/api.types";
 import { GenreProps } from "../MoviesPage";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 const UseMovies=( {genre_id,sortedBy,page} : GenreProps)=>{
  
@@ -21,7 +20,7 @@ const UseMovies=( {genre_id,sortedBy,page} : GenreProps)=>{
         return 0;
       });
     }
-
+    
 return useQuery<Movie[],Error>({
   queryKey: ['movies', genre_id,page],
   queryFn: () => {

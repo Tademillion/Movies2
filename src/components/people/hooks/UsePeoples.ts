@@ -10,9 +10,7 @@ import { FetchRespone } from "../../UseData";
         
      }).then((res)=>(res.data.results)).catch(error=>{
         console.log(error)
-     })
-
-    
+     }) 
 
  const UsePeoples =(currentPage? :number)=>useQuery({
     queryKey:["peoples",currentPage],

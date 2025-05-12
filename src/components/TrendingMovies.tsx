@@ -1,32 +1,13 @@
-import { motion, time } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { useState } from "react";
-import {
-  FaCalendarAlt,
-  FaFire,
-  FaPlay,
-  FaRegTired,
-  FaStar,
-} from "react-icons/fa";
+import { FaCalendarAlt, FaFire, FaPlay, FaStar } from "react-icons/fa";
+import apiClient from "../services/apiClient";
 import { FetchMovieRespone, Movie } from "../types/api.types";
 import ErrorPage from "./common/ErrorPage";
-import UseGenericMovies from "./movies/Hooks/UseGenericMovies";
-import {
-  keepPreviousData,
-  useInfiniteQuery,
-  useQuery,
-} from "@tanstack/react-query";
-import apiClient from "../services/apiClient";
 
 const TrendingMovies = () => {
   const [timeWindow, setTimeWindow] = useState<"day" | "week">("day");
-
-  // const {
-  //   Error,
-  //   isLoading,
-  //   data: movies,
-  // } = UseGenericMovies<Movie>(`/trending/movie/${timeWindow}`, {}, {}, [
-  //   timeWindow,
-  // ]);
 
   const {
     data: movies,

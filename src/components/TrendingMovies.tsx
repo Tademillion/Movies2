@@ -1,23 +1,54 @@
-import { motion } from "framer-motion";
+import { motion, time } from "framer-motion";
 import { useState } from "react";
-import { FaCalendarAlt, FaFire, FaPlay, FaStar } from "react-icons/fa";
-import { Movie } from "../types/api.types";
+import {
+  FaCalendarAlt,
+  FaFire,
+  FaPlay,
+  FaRegTired,
+  FaStar,
+} from "react-icons/fa";
+import { FetchMovieRespone, Movie } from "../types/api.types";
 import ErrorPage from "./common/ErrorPage";
 import UseGenericMovies from "./movies/Hooks/UseGenericMovies";
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
+import apiClient from "../services/apiClient";
 
 const TrendingMovies = () => {
   const [timeWindow, setTimeWindow] = useState<"day" | "week">("day");
 
+  // const {
+  //   Error,
+  //   isLoading,
+  //   data: movies,
+  // } = UseGenericMovies<Movie>(`/trending/movie/${timeWindow}`, {}, {}, [
+  //   timeWindow,
+  // ]);
+
   const {
-    Error,
-    isLoading,
     data: movies,
-  } = UseGenericMovies<Movie>(`/trending/movie/${timeWindow}`, {}, {}, [
-    timeWindow,
-  ]);
+    error: Error,
+    isLoading,
+  } = useQuery<Movie[], Error>({
+    queryKey: ["trend", timeWindow],
+    queryFn: () => {
+      return apiClient
+        .get<FetchMovieRespone>(`/trending/movie/${timeWindow}`)
+        .then((res) => {
+          keepPreviousData: true;
+          return res.data.results;
+        })
+        .catch((error) => {
+          return error;
+        });
+    },
+  });
 
   if (Error) {
-    return <ErrorPage errorType={Error} />;
+    return <ErrorPage errorType={"404"} />;
   }
   if (isLoading) {
     return (
@@ -69,7 +100,7 @@ const TrendingMovies = () => {
 
         {/* Movies Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6">
-          {movies.map((movie, index) => (
+          {movies?.map((movie, index) => (
             <motion.div
               key={movie.id}
               initial={{ opacity: 0, y: 20 }}

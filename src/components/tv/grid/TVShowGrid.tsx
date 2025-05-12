@@ -1,28 +1,31 @@
-import { TVShow } from "../../../types/api.types";
 import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
-import UseGenericMovies from "../../movies/Hooks/UseGenericMovies";
 import TVShowCard from "../card/TVShowCard";
+import UseTvShows from "../hooks/UseTvShows";
 import { TvshowsEndpointProps } from "../TVShowsPage";
 
 const TVShowGrid = ({ endpoint, currentPage }: TvshowsEndpointProps) => {
-  // const { error, isLoading, tvShows } = UseTvShows(endpoint);
+  const {
+    error,
+    isLoading,
+    data: tvShows,
+  } = UseTvShows({ endpoint, currentPage });
   // const {
   //   data: tvShows,
   //   error,
   //   isLoading,
   // } = UseTvShowsGeneric({ endpoint, currentPage });
 
-  const {
-    data: tvShows,
-    Error: error,
-    isLoading,
-  } = UseGenericMovies<TVShow>(
-    `/tv/${endpoint}`,
-    {},
-    { params: { page: currentPage } },
-    [endpoint, currentPage]
-  );
+  // const {
+  //   data: tvShows,
+  //   Error: error,
+  //   isLoading,
+  // } = UseGenericMovies<TVShow>(
+  //   `/tv/${endpoint}`,
+  //   {},
+  //   { params: { page: currentPage } },
+  //   [endpoint, currentPage]
+  // );
 
   if (isLoading) {
     return (
@@ -33,9 +36,9 @@ const TVShowGrid = ({ endpoint, currentPage }: TvshowsEndpointProps) => {
   }
   if (error) {
     console.log(error);
-    return <ErrorPage errorType={error} />;
+    return <ErrorPage errorType={"404"} />;
   }
-  if (!tvShows.length) {
+  if (!tvShows?.length) {
     return <ErrorPage errorType="generic" message="No TV shows found" />;
   }
   return (

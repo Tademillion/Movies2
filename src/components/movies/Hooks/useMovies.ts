@@ -37,8 +37,5 @@ return useQuery<Movie[],Error>({
   },
 });
 
-
-     //return {movies,isLoading,Error}
-
 }
  export  default UseMovies;

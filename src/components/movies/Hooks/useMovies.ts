@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { FetchMovieRespone, Movie } from "../../../types/api.types";
 import apiClient from "../../../services/apiClient";
 import { GenreProps } from "../MoviesPage";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-const UseMovies=( {genre_id,sortedBy} : GenreProps)=>{
-    const [movies, setMovies] = useState<Movie[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [Error, setError] = useState<string | null>(null);
+const UseMovies=( {genre_id,sortedBy,page} : GenreProps)=>{
+ 
   const    getSortedResults=(data:   Movie[] , sortedBy?: string | null): Movie[]=> {
       if (!data || !data || !Array.isArray(data) || !sortedBy) {
         return data || []; // Or handle as needed
@@ -25,12 +23,13 @@ const UseMovies=( {genre_id,sortedBy} : GenreProps)=>{
     }
 
 return useQuery<Movie[],Error>({
-  queryKey: ['movies', genre_id],
+  queryKey: ['movies', genre_id,page],
   queryFn: () => {
     return apiClient.get<FetchMovieRespone>("/discover/movie", {
-      params: { with_genres: genre_id },
+      params: { with_genres: genre_id,page:page },
     })
       .then((response) => { 
+        keepPreviousData:true
         return getSortedResults(response.data.results,sortedBy);
       })
       .catch((error) => error);

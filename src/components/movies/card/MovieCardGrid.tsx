@@ -11,7 +11,7 @@ const MovieCardGrid = ({ genre_id, sortedBy, page }: GenreProps) => {
     error: Error,
     data: movies,
     isLoading,
-  } = UseMovies({ genre_id, sortedBy });
+  } = UseMovies({ genre_id, sortedBy, page });
   // const {
   //   Error,
   //   isLoading,

@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {  useQuery } from "@tanstack/react-query";
 import apiClient from "../../../services/apiClient";
 import { FetchTvShowsRespone, TVShow } from "../../../types/api.types";
 import { TvshowsEndpointProps } from "../TVShowsPage";

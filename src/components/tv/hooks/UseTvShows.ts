@@ -1,9 +1,8 @@
-import {  useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../services/apiClient";
 import { FetchTvShowsRespone, TVShow } from "../../../types/api.types";
-import { TvshowsEndpointProps } from "../TVShowsPage";
-
-const UseTvShows=({endpoint,currentPage}:TvshowsEndpointProps)=>{
+import { TvshowsEndpointProps } from "../TVShowsPage"; 
+const UseTvShows=({endpoint,currentPage}:TvshowsEndpointProps)=>{ 
 
   const GetTvshows=()=>{
  return apiClient
@@ -26,8 +25,6 @@ const UseTvShows=({endpoint,currentPage}:TvshowsEndpointProps)=>{
  return useQuery<TVShow[], Error>({
   queryKey: ["tvshows", endpoint, currentPage],
   queryFn: GetTvshows
-  
-});
-
+  }) 
 }
  export default UseTvShows;

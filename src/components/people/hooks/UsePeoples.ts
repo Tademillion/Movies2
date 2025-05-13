@@ -1,28 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import apiClient from "../../../services/apiClient";
-import { PeopleGridProps } from "../../../types/api.types";
-import { FetchRespone } from "../../UseData";
-import apiServices from "../../../services/apiServices";
-const Services= new apiServices<PeopleGridProps>("person/popular");
- const getpeople=(currentPage?:number)=>
-     apiClient.get<FetchRespone<PeopleGridProps>>("person/popular",{
-        params:{
-            page:currentPage
-        }
-        
-     }).then((res)=>(res.data.results)).catch(error=>{
-        console.log(error)
-     }) 
+import peopleservices from "../../../services/peopleservices";
 
  const UsePeoples =(currentPage? :number)=>useQuery({
     queryKey:["peoples",currentPage],
-    queryFn:()=> Services.getall({
+    queryFn:()=> peopleservices.getall({
         params:{
             page:currentPage
     }
     })
 })
 
+// so the structure from bootom up
+// 2. apiServices.ts // apiclient instance of the axios to handle the api calls
+// 3. peopleservices.ts // people services used to handle all people services 
+// 4. UsePeoples.ts
+// 5. PeopleGrid.tsx
 //  const UsePeoples =(currentPage? :number)=> UseGenericMovies<PeopleGridProps>("person/popular",{},{params:{page:currentPage}},[currentPage]);
 
  export default UsePeoples;

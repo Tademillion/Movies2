@@ -16,27 +16,7 @@ const TrendingMovies = () => {
     fetchNextPage,
   } = UseTrending(timeWindow);
   const movies = data?.pages.flatMap((page) => page.results);
-  useEffect(() => {
-    console.log("movies", movies);
-  }, []);
 
-  // {
-  //   data?.pages.map((pages, index) => (
-  //     <React.Fragment key={index}>
-  //       {pages.results.map((movie) => (
-  //         <div key={movie.id} className="p-4">
-  //           <img
-  //             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-  //             alt={movie.title}
-  //             className="w-full h-auto rounded-lg"
-  //           />
-  //           <h2 className="text-xl font-bold mt-2">{movie.title}</h2>
-  //           <p className="text-gray-600">{movie.overview}</p>
-  //         </div>
-  //       ))}
-  //     </React.Fragment>
-  //   ));
-  // }
   if (Error) {
     return <ErrorPage errorType={"404"} />;
   }
@@ -50,6 +30,22 @@ const TrendingMovies = () => {
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen">
+      {data?.pages.map((pages, index) => (
+        <React.Fragment key={index}>
+          {pages.results.map((movie) => (
+            <div key={movie.id} className="p-4">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                className="w-full h-auto rounded-lg"
+              />
+              <h2 className="text-xl font-bold mt-2">{movie.title}</h2>
+              <p className="text-gray-600">{movie.overview}</p>
+            </div>
+          ))}
+        </React.Fragment>
+        //  if not use flatmap use this instead
+      ))}
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -156,9 +152,10 @@ const TrendingMovies = () => {
           onClick={() => {
             fetchNextPage();
           }}
+          disabled={!hasNextPage}
         >
           {" "}
-          NExt
+          NEXT
         </button>
       </div>
     </div>

@@ -16,6 +16,7 @@ export interface FetchMovieRespone{
   total_pages:number,
   total_results:number,
   results:Movie[]
+  page:number;
 }
 export interface MovieResponse {
   page: number;

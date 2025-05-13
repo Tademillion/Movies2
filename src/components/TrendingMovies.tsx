@@ -8,7 +8,13 @@ import React from "react";
 const TrendingMovies = () => {
   const [timeWindow, setTimeWindow] = useState<"day" | "week">("day");
 
-  const { data, error: Error, isLoading } = UseTrending(timeWindow);
+  const {
+    data,
+    error: Error,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+  } = UseTrending(timeWindow);
   const movies = data?.pages.flatMap((page) => page.results);
   useEffect(() => {
     console.log("movies", movies);
@@ -145,6 +151,15 @@ const TrendingMovies = () => {
             </motion.div>
           ))}
         </div>
+        <button
+          className="bg-orange-500 text-white px-4 py-2 rounded-full mt-6 hover:bg-orange-600 transition-colors"
+          onClick={() => {
+            fetchNextPage();
+          }}
+        >
+          {" "}
+          NExt
+        </button>
       </div>
     </div>
   );

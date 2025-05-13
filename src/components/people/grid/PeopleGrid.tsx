@@ -2,12 +2,14 @@ import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import PeopleCard from "../card/PeopleCard";
 import UsePeoples from "../hooks/UsePeoples";
+
 export interface pages {
   currentPage?: number;
 }
 
 const PeopleGrid = ({ currentPage }: pages) => {
   const { data, isLoading, error } = UsePeoples(currentPage);
+
   if (error) {
     return <ErrorPage errorType="404" message={error.message} />;
   }

@@ -1,33 +1,36 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCalendarAlt, FaFire, FaPlay, FaStar } from "react-icons/fa";
-import apiClient from "../services/apiClient";
-import { FetchMovieRespone, Movie } from "../types/api.types";
 import ErrorPage from "./common/ErrorPage";
+import UseTrending from "./ui/UseTrending";
+import React from "react";
 
 const TrendingMovies = () => {
   const [timeWindow, setTimeWindow] = useState<"day" | "week">("day");
 
-  const {
-    data: movies,
-    error: Error,
-    isLoading,
-  } = useQuery<Movie[], Error>({
-    queryKey: ["trend", timeWindow],
-    queryFn: () => {
-      return apiClient
-        .get<FetchMovieRespone>(`/trending/movie/${timeWindow}`)
-        .then((res) => {
-          keepPreviousData: true;
-          return res.data.results;
-        })
-        .catch((error) => {
-          return error;
-        });
-    },
-  });
+  const { data, error: Error, isLoading } = UseTrending(timeWindow);
+  const movies = data?.pages.flatMap((page) => page.results);
+  useEffect(() => {
+    console.log("movies", movies);
+  }, []);
 
+  // {
+  //   data?.pages.map((pages, index) => (
+  //     <React.Fragment key={index}>
+  //       {pages.results.map((movie) => (
+  //         <div key={movie.id} className="p-4">
+  //           <img
+  //             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+  //             alt={movie.title}
+  //             className="w-full h-auto rounded-lg"
+  //           />
+  //           <h2 className="text-xl font-bold mt-2">{movie.title}</h2>
+  //           <p className="text-gray-600">{movie.overview}</p>
+  //         </div>
+  //       ))}
+  //     </React.Fragment>
+  //   ));
+  // }
   if (Error) {
     return <ErrorPage errorType={"404"} />;
   }

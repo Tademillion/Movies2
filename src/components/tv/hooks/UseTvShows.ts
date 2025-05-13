@@ -21,7 +21,7 @@ const UseTvShows=({endpoint,currentPage}:TvshowsEndpointProps)=>{
         throw error;
       })
   }
-    
+    //  master the query key to avoid cache collision
  return useQuery<TVShow[], Error>({
   queryKey: ["tvshows", endpoint, currentPage],
   queryFn: GetTvshows

@@ -21,10 +21,8 @@ const UseMovies=( {genre_id,sortedBy,page} : GenreProps)=>{
       });
     }
     
-return useQuery<Movie[],Error>({
-  queryKey: ['movies', genre_id,page],
-  queryFn: () => {
-    return apiClient.get<FetchMovieRespone>("/discover/movie", {
+     const getMovies=()=>{
+       return apiClient.get<FetchMovieRespone>("/discover/movie", {
       params: { with_genres: genre_id,page:page },
     })
       .then((response) => { 
@@ -32,7 +30,11 @@ return useQuery<Movie[],Error>({
         return getSortedResults(response.data.results,sortedBy);
       })
       .catch((error) => error);
-  },
+     }
+return useQuery<Movie[],Error>({
+  queryKey: ['movies', genre_id,page,sortedBy],
+  queryFn:  getMovies
+  
 });
 
 }

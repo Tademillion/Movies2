@@ -86,6 +86,7 @@ export interface PeopleKnownByProps {
   title: string;
   vote_average: number;
   vote_count: number;
+  name?: string;
 }
 export interface PeopleGridProps {
   id: number;

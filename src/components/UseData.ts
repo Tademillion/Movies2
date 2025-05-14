@@ -5,6 +5,7 @@ export interface FetchRespone<T>{
     results:T[];
     total_pages:number,
     total_results:number
+    page:number;
    }
 const UseData=<T>(endpoint:string)=>{
     const [data, setData] = useState<T[]>([]);

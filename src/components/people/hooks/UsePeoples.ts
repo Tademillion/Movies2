@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import peopleservices from "../../../services/peopleservices";
 import { Person } from "../../PopularPeople";
+import { PeopleGridProps } from "../../../types/api.types";
 
- const UsePeoples =(currentPage? :number)=>useQuery<Person[],Error>({
+ const UsePeoples =(currentPage? :number)=>useQuery<PeopleGridProps[],Error>({
     queryKey:["peoples",currentPage],
     queryFn:()=> peopleservices.getall({
         params:{

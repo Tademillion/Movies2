@@ -3,6 +3,10 @@ import { useState } from "react";
 import { FaFilm, FaTv, FaUser } from "react-icons/fa";
 import ErrorPage from "./common/ErrorPage";
 import UsePeoples from "./people/hooks/UsePeoples";
+import { FetchMovieRespone, PeopleGridProps } from "../types/api.types";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import apiClient from "../services/apiClient";
+import { FetchRespone } from "./UseData";
 
 export interface Person {
   id: number;
@@ -19,18 +23,48 @@ export interface Person {
 
 const PopularPeople = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
-  const { Error, isLoading, data: people } = UsePeoples();
+  // const { error: Error, isLoading, data: people } = UsePeoples();
+
+  //  lets repllce this with infinite query
+
+  const {
+    data,
+    error: Error,
+    isLoading,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    fetchPreviousPage,
+  } = useInfiniteQuery<FetchRespone<PeopleGridProps>, Error>({
+    queryKey: ["peoples"],
+    queryFn: () => {
+      return apiClient
+        .get("person/popular")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => error);
+    },
+    getNextPageParam: (lastpage, allpages) => {
+      return lastpage.page < lastpage.total_pages
+        ? allpages.length + 1
+        : undefined;
+    },
+
+    initialPageParam: 1,
+  });
+  const people = data?.pages.flatMap((page) => page.results);
 
   const departments = ["all", "Acting", "Directing", "Writing", "Production"];
 
-  const filterPeopleByDepartment = (people: Person[]) => {
+  const filterPeopleByDepartment = (people: PeopleGridProps[]) => {
     if (selectedDepartment === "all") return people;
     return people.filter(
       (person) => person.known_for_department === selectedDepartment
     );
   };
   if (Error) {
-    return <ErrorPage errorType="404" message={Error} />;
+    return <ErrorPage errorType="404" message={Error.message} />;
   }
   if (isLoading) {
     return (
@@ -40,7 +74,7 @@ const PopularPeople = () => {
     );
   }
 
-  const filteredPeople = filterPeopleByDepartment(people);
+  const filteredPeople = filterPeopleByDepartment(people ? people : []);
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen">
@@ -79,7 +113,7 @@ const PopularPeople = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6">
           {filteredPeople.map((person, index) => (
             <motion.div
-              key={person.id}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -134,7 +168,6 @@ const PopularPeople = () => {
                     </div>
                   </div>
                 </div>
-
                 {/* Popularity Badge */}
                 <div className="absolute top-3 left-3 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                   {Math.round(person.popularity)}% Popular
@@ -143,6 +176,18 @@ const PopularPeople = () => {
             </motion.div>
           ))}
         </div>
+        {/* Load More Button */}
+        {hasNextPage && (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => fetchNextPage()}
+              className="bg-purple-500 text-white px-6 py-2 rounded-full shadow-lg hover:bg-purple-600 transition-colors"
+            >
+              {isFetchingNextPage ? "Loading..." : "Load More"}
+            </button>
+          </div>
+        )}
+        {}
       </div>
     </div>
   );

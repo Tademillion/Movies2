@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import apiClient from "../../../services/apiClient";
-import { FetchMovieRespone, Movie } from "../../../types/api.types";
+import apiServices from "../../../services/apiServices";
+import moviesServices from "../../../services/moviesServices";
+import { Movie } from "../../../types/api.types";
 import { GenreProps } from "../MoviesPage";
-
+const serve= new apiServices<Movie>("/discover/movie")
 const UseMovies=( {genre_id,sortedBy,page} : GenreProps)=>{
  
   const    getSortedResults=(data:   Movie[] , sortedBy?: string | null): Movie[]=> {
@@ -18,23 +19,16 @@ const UseMovies=( {genre_id,sortedBy,page} : GenreProps)=>{
           return 1;
         }
         return 0;
-      });
+      }); 
     }
-    
-     const getMovies=()=>{
-       return apiClient.get<FetchMovieRespone>("/discover/movie", {
-      params: { with_genres: genre_id,page:page },
-    })
-      .then((response) => { 
-        keepPreviousData:true
-        return getSortedResults(response.data.results,sortedBy);
-      })
-      .catch((error) => error);
-     }
 return useQuery<Movie[],Error>({
   queryKey: ['movies', genre_id,page,sortedBy],
-  queryFn:  getMovies
-  
+  queryFn: ()=>moviesServices.getall({
+    params: { with_genres: genre_id,page:page },
+  }).then(response=>{
+    return getSortedResults(response,sortedBy)
+    // sort the get results
+  }) 
 });
 
 }

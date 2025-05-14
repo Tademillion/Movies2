@@ -1,12 +1,14 @@
-import { motion } from "framer-motion";
+import { motion, time } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaCalendarAlt, FaFire, FaPlay, FaStar } from "react-icons/fa";
 import ErrorPage from "./common/ErrorPage";
 import UseTrending from "./ui/UseTrending";
 import React from "react";
+import UseTrendingInfinite from "./ui/UseTrendingInfinite";
 
 const TrendingMovies = () => {
   const [timeWindow, setTimeWindow] = useState<"day" | "week">("day");
+  const [currentpage, setCurrentPage] = useState(1);
 
   const {
     data,
@@ -15,7 +17,10 @@ const TrendingMovies = () => {
     hasNextPage,
     fetchNextPage,
   } = UseTrending(timeWindow);
+
   const movies = data?.pages.flatMap((page) => page.results);
+  const { pages } = UseTrendingInfinite(timeWindow, currentpage);
+  const myt = pages.flatMap((page) => page.results);
 
   if (Error) {
     return <ErrorPage errorType={"404"} />;
@@ -30,22 +35,6 @@ const TrendingMovies = () => {
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen">
-      {data?.pages.map((pages, index) => (
-        <React.Fragment key={index}>
-          {pages.results.map((movie) => (
-            <div key={movie.id} className="p-4">
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className="w-full h-auto rounded-lg"
-              />
-              <h2 className="text-xl font-bold mt-2">{movie.title}</h2>
-              <p className="text-gray-600">{movie.overview}</p>
-            </div>
-          ))}
-        </React.Fragment>
-        //  if not use flatmap use this instead
-      ))}
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -86,9 +75,9 @@ const TrendingMovies = () => {
 
         {/* Movies Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6">
-          {movies?.map((movie, index) => (
+          {myt.map((movie, index) => (
             <motion.div
-              key={movie.id}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -150,7 +139,8 @@ const TrendingMovies = () => {
         <button
           className="bg-orange-500 text-white px-4 py-2 rounded-full mt-6 hover:bg-orange-600 transition-colors"
           onClick={() => {
-            fetchNextPage();
+            setCurrentPage((page) => page + 1);
+            // fetchNextPage();
           }}
           disabled={!hasNextPage}
         >

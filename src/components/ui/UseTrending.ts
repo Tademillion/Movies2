@@ -1,8 +1,7 @@
-import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import apiClient from "../../services/apiClient";
-import { FetchMovieRespone } from "../../types/api.types";
 import apiServices from "../../services/apiServices";
-const Service=new apiServices("/trending/movie/");
+import { FetchMovieRespone } from "../../types/api.types";
 const useTrending = (timeWindow: "day" | "week") => {
   return useInfiniteQuery<FetchMovieRespone, Error>({
     queryKey: ["trend", timeWindow],
@@ -10,6 +9,7 @@ const useTrending = (timeWindow: "day" | "week") => {
     
   return    apiClient.get<FetchMovieRespone>( `/trending/movie/${timeWindow}`,
         { params: { page: pageParam } }).then(response=>{
+          // console.log(response.data)
             keepPreviousData:true
             //setData((prev) => [...prev, reposense.data.results]); this is what hapened when getnextPageParam is called
             // this is the same as setData((prev) => [...prev, ...reposense.data.results]);

@@ -75,7 +75,7 @@ const TrendingMovies = () => {
 
         {/* Movies Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6">
-          {myt.map((movie, index) => (
+          {movies?.map((movie, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -139,8 +139,8 @@ const TrendingMovies = () => {
         <button
           className="bg-orange-500 text-white px-4 py-2 rounded-full mt-6 hover:bg-orange-600 transition-colors"
           onClick={() => {
-            setCurrentPage((page) => page + 1);
-            // fetchNextPage();
+            // setCurrentPage((page) => page + 1);
+            fetchNextPage();
           }}
           disabled={!hasNextPage}
         >

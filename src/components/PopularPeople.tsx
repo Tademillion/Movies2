@@ -6,12 +6,12 @@ import apiClient from "../services/apiClient";
 import { PeopleGridProps } from "../types/api.types";
 import ErrorPage from "./common/ErrorPage";
 import { FetchRespone } from "./UseData";
+import popularPeople from "../services/popularPeople";
 const PopularPeople = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
   // const { error: Error, isLoading, data: people } = UsePeoples();
 
   //  lets repllce this with infinite query
-
   const {
     data,
     error: Error,
@@ -20,24 +20,9 @@ const PopularPeople = () => {
     isFetchingNextPage,
     fetchNextPage,
     fetchPreviousPage,
-  } = useInfiniteQuery<FetchRespone<PeopleGridProps>, Error>({
-    queryKey: ["peoples"],
-    queryFn: () => {
-      return apiClient
-        .get("person/popular")
-        .then((response) => {
-          return response.data;
-        })
-        .catch((error) => error);
-    },
-    getNextPageParam: (lastpage, allpages) => {
-      return lastpage.page < lastpage.total_pages
-        ? allpages.length + 1
-        : undefined;
-    },
-
-    initialPageParam: 1,
-  });
+    isFetchingPreviousPage,
+    hasPreviousPage,
+  } = popularPeople();
   const people = data?.pages.flatMap((page) => page.results);
 
   const departments = ["all", "Acting", "Directing", "Writing", "Production"];
@@ -170,9 +155,16 @@ const PopularPeople = () => {
             >
               {isFetchingNextPage ? "Loading..." : "Load More"}
             </button>
+            {hasPreviousPage && (
+              <button
+                onClick={() => fetchPreviousPage()}
+                className="bg-purple-500 text-white px-6 py-2 rounded-full shadow-lg hover:bg-purple-600 transition-colors"
+              >
+                {isFetchingPreviousPage ? "Loading..." : "Load Previous"}
+              </button>
+            )}
           </div>
         )}
-        {}
       </div>
     </div>
   );

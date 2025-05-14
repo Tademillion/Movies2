@@ -1,6 +1,5 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import apiClient from "../../services/apiClient";
-import apiServices from "../../services/apiServices";
 import { FetchMovieRespone } from "../../types/api.types";
 const useTrending = (timeWindow: "day" | "week") => {
   return useInfiniteQuery<FetchMovieRespone, Error>({
@@ -17,8 +16,9 @@ const useTrending = (timeWindow: "day" | "week") => {
             return response.data
         }).catch(error=>{
             return error
-        })
+        }) 
     },
+    placeholderData:keepPreviousData,// keepspreviousData:true
     getNextPageParam: (lastPage,allpages) => {
         //  when this reruns number the react query do like this 
         //setData((prev) => [...prev, ...newData]);

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiServices from "../../../services/apiServices";
 import moviesServices from "../../../services/moviesServices";
 import { Movie } from "../../../types/api.types";
@@ -24,11 +24,14 @@ const UseMovies=( {genre_id,sortedBy,page} : GenreProps)=>{
 return useQuery<Movie[],Error>({
   queryKey: ['movies', genre_id,page,sortedBy],
   queryFn: ()=>moviesServices.getall({
+    
     params: { with_genres: genre_id,page:page },
-  }).then(response=>{
+  }).then(response=>{ 
     return getSortedResults(response,sortedBy)
     // sort the get results
-  }) 
+  }) ,
+  placeholderData: keepPreviousData,
+  //  keepPreviousData :true is converted to placeholderData in reactquery5
 });
 
 }

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import tvShowsServices from "../../../services/tvshowsServices";
 import { TVShow } from "../../../types/api.types";
 import { TvshowsEndpointProps } from "../TVShowsPage";
@@ -10,7 +10,8 @@ const endpoints=endpoint ? `tv/${endpoint}` : "tv/popular"
     params:{
       page:currentPage
     } 
-  })
+  }),
+  placeholderData:keepPreviousData
   }) 
 }
  export default UseTvShows;

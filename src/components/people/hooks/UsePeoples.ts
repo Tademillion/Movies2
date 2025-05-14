@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import peopleservices from "../../../services/peopleservices";
 
 import { PeopleGridProps } from "../../../types/api.types";
@@ -10,6 +10,7 @@ import { PeopleGridProps } from "../../../types/api.types";
             page:currentPage
     }
     })
+    ,placeholderData:keepPreviousData
 })
 
 // so the structure from bootom up

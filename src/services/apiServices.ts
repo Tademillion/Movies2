@@ -12,6 +12,7 @@ class apiServices<T>  {
     this.endpoint=endpoint
    }
    getall= (config:AxiosRequestConfig)=>{
+    //  we use  arrow function because it this is points to the parent objects
   return  AxiosInstance.get<FetchRespone<T>>(this.endpoint, config).then((res)=>{
      
         return res.data.results

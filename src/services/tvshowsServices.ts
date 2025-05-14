@@ -1,9 +1,5 @@
 import { TvshowsEndpointProps } from "../components/tv/TVShowsPage";
+import { TVShow } from "../types/api.types";
 import apiServices from "./apiServices";
-
-const tvShowsServices =({endpoint,currentPage}:TvshowsEndpointProps) => {
-    return new apiServices<TvshowsEndpointProps>(endpoint ? `tv/${endpoint}` : "tv/popular").getall({
-        params: {page:currentPage}
-    })
-}
- export default tvShowsServices;
+const tvshowsServices=(endpoint:string)=>  new apiServices<TVShow>(endpoint);
+ export default  tvshowsServices

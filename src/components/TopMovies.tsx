@@ -1,18 +1,62 @@
 import { motion } from "framer-motion";
 import { FaPlay, FaStar } from "react-icons/fa";
-import { Movie } from "../types/api.types";
+import { FetchMovieRespone, Movie } from "../types/api.types";
 import ErrorPage from "./common/ErrorPage";
 import UseGenericMovies from "./movies/Hooks/UseGenericMovies";
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
+import apiClient from "../services/apiClient";
 
 const TopMovies = () => {
-  const {
-    Error,
-    isLoading,
-    data: movies,
-  } = UseGenericMovies<Movie>("/movie/top_rated", {}, { params: {} });
+  // const {
+  //   Error,
+  //   isLoading,
+  //   data: movies,
+  // } = UseGenericMovies<Movie>("/movie/top_rated", {}, { params: {} });
 
-  if (Error) {
-    return <ErrorPage errorType={Error} />;
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<FetchMovieRespone, Error>({
+    queryKey: ["top250"],
+    queryFn: ({ pageParam = 1 }) => {
+      return apiClient
+        .get("/movie/top_rated", {
+          params: {
+            page: pageParam,
+          },
+        })
+        .then((reponse) => {
+          keepPreviousData: true;
+          return reponse.data;
+        })
+        .catch((error) => error);
+    },
+    getNextPageParam: (lastPage, allpages) => {
+      //  when this reruns number the react query do like this
+      //setData((prev) => [...prev, ...newData]);
+      return lastPage.page < lastPage.total_pages
+        ? allpages.length + 1
+        : undefined;
+    },
+    initialPageParam: 1,
+    //  what we know is in infinitequeryversion fo 5
+    // two things are must unde queryfunvtion
+
+    // 3. getNextPageParam
+    // 4. initialPageParam
+  });
+
+  const movies = data?.pages.flatMap((page) => page.results);
+  if (error) {
+    return <ErrorPage errorType={"404"} />;
   }
 
   if (isLoading) {
@@ -29,7 +73,7 @@ const TopMovies = () => {
         Top 250 Movies
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6">
-        {movies.map((movie, index) => (
+        {movies?.map((movie, index) => (
           <motion.div
             key={movie.id}
             initial={{ opacity: 0, y: 20 }}
@@ -69,6 +113,16 @@ const TopMovies = () => {
             </div>
           </motion.div>
         ))}
+        <button
+          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-blue-700 transition-colors"
+          onClick={() => {
+            fetchNextPage();
+          }}
+          disabled={!hasNextPage}
+        >
+          {" "}
+          {isFetchingNextPage ? "Loading ...." : "loadMore"}
+        </button>
       </div>
     </div>
   );

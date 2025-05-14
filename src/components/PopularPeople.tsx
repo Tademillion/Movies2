@@ -4,7 +4,7 @@ import { FaFilm, FaTv, FaUser } from "react-icons/fa";
 import ErrorPage from "./common/ErrorPage";
 import UsePeoples from "./people/hooks/UsePeoples";
 
-interface Person {
+export interface Person {
   id: number;
   name: string;
   profile_path: string;

@@ -1,9 +1,8 @@
-import { motion, time } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { FaCalendarAlt, FaFire, FaPlay, FaStar } from "react-icons/fa";
 import ErrorPage from "./common/ErrorPage";
 import UseTrending from "./ui/UseTrending";
-import React from "react";
 import UseTrendingInfinite from "./ui/UseTrendingInfinite";
 
 const TrendingMovies = () => {

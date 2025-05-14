@@ -1,26 +1,11 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FaFilm, FaTv, FaUser } from "react-icons/fa";
-import ErrorPage from "./common/ErrorPage";
-import UsePeoples from "./people/hooks/UsePeoples";
-import { FetchMovieRespone, PeopleGridProps } from "../types/api.types";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import apiClient from "../services/apiClient";
+import { PeopleGridProps } from "../types/api.types";
+import ErrorPage from "./common/ErrorPage";
 import { FetchRespone } from "./UseData";
-
-export interface Person {
-  id: number;
-  name: string;
-  profile_path: string;
-  known_for_department: string;
-  known_for: Array<{
-    title?: string;
-    name?: string;
-    media_type: string;
-  }>;
-  popularity: number;
-}
-
 const PopularPeople = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<string>("all");
   // const { error: Error, isLoading, data: people } = UsePeoples();

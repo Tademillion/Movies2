@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import TVShowCard from "../card/TVShowCard";

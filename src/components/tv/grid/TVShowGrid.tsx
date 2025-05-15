@@ -1,11 +1,16 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import TVShowCard from "../card/TVShowCard";
 import UseTvShows from "../hooks/UseTvShows";
 import { TvshowsEndpointProps } from "../TVShowsPage";
+import TvshowsContext from "../context/TvshowsContext";
 
 const TVShowGrid = ({ endpoint, currentPage }: TvshowsEndpointProps) => {
+  const { state } = useContext(TvshowsContext);
+  useEffect(() => {
+    console.log("state of second passis ", state);
+  }, [state]);
   const {
     error,
     isLoading,

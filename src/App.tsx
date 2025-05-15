@@ -35,28 +35,29 @@ function App() {
           incomingtab={sidetab}
         />
         {/* Main Content */}
-        {
-          <TvshowsContext.Provider value={{ state, dispatch }}>
-            <div className="flex bg-black">
-              {/* Sidebar */}
-              <SideBar
-                handelCheck={(genre_id: number) => {
-                  setGenre(genre_id);
-                }}
-                HandleTvCategory={(endpoint: TvshowsType) => {
-                  setTvCategory(endpoint.value);
-                  setTvshowsCategory(endpoint.name);
-                }}
-                HandleMovieSortBy={(data: string) => {
-                  setMoviesSortedby(data);
-                }}
-                activeTab={active}
-                handleactiveTabs={(data: string) => {
-                  setSideTab(data);
-                }}
-              />
-              <main className="flex-1 p-8 mt-20 mx-5 bg-red bg-white/5 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10">
-                <div className="container mx-auto">
+
+        <div className="flex bg-black">
+          {/* Sidebar */}
+          <SideBar
+            handelCheck={(genre_id: number) => {
+              setGenre(genre_id);
+            }}
+            HandleTvCategory={(endpoint: TvshowsType) => {
+              setTvCategory(endpoint.value);
+              setTvshowsCategory(endpoint.name);
+            }}
+            HandleMovieSortBy={(data: string) => {
+              setMoviesSortedby(data);
+            }}
+            activeTab={active}
+            handleactiveTabs={(data: string) => {
+              setSideTab(data);
+            }}
+          />
+          <main className="flex-1 p-8 mt-20 mx-5 bg-red bg-white/5 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10">
+            <div className="container mx-auto">
+              {
+                <TvshowsContext.Provider value={{ state, dispatch }}>
                   <Routes>
                     <Route
                       path="/"
@@ -97,11 +98,12 @@ function App() {
                     <Route path="/popular-people" element={<PopularPeople />} />
                     <Route path="*" element={<ErrorPage errorType="404" />} />
                   </Routes>
-                </div>
-              </main>
+                </TvshowsContext.Provider>
+              }
             </div>
-          </TvshowsContext.Provider>
-        }
+          </main>
+        </div>
+
         {/* Footer */}
         <Footer />
       </div>

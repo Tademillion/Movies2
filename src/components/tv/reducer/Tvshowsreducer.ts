@@ -4,7 +4,7 @@ export interface TvshowsreducerProps {
 }
 
 const Tvshowsreducer = (state:string,action:TvshowsreducerProps):string => {
- 
+ console.log("state of reducer", action.endpoint)
  return action.endpoint
 }
 

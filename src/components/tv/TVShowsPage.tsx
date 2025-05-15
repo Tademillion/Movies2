@@ -9,9 +9,9 @@ export interface TvshowsEndpointProps {
 
 const TVShowsPage = ({ endpoint, category }: TvshowsEndpointProps) => {
   const { state } = useContext(TvshowsContext);
-
-  console.log("state of context in page", state);
-
+  useEffect(() => {
+    console.log("state of context", state);
+  }, [state]);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 10; // This would come from your API
   return (

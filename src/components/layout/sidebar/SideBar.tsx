@@ -3,6 +3,8 @@ import { MoviesCategory, TvShowsConst } from "../../../constants/constants";
 import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Genras from "./genras";
+import { useReducer } from "react";
+import Tvshowsreducer from "../../tv/reducer/Tvshowsreducer";
 export interface TvshowsType {
   name: string;
   value: string;
@@ -23,6 +25,9 @@ const SideBar = ({
   activeTab,
   handleactiveTabs,
 }: Props) => {
+  // const { state, dispatch } = useReducer(Tvshowsreducer, "popular");
+  const [state, dispatch] = useReducer(Tvshowsreducer, "popular");
+
   const { error, genre, isLoading } = Genras();
   {
     isLoading && <LoadingSpinner />;
@@ -105,7 +110,10 @@ const SideBar = ({
                         // value={tv.value}
                         className="form-checkbox h-5 w-5 rounded border-white/30 bg-white/10 text-indigo-400 focus:ring-indigo-400 focus:ring-offset-0"
                         onChange={(event) => {
-                          if (event.target.checked) HandleTvCategory(tv);
+                          if (event.target.checked) {
+                            // HandleTvCategory(tv);
+                            dispatch({ endpoint: tv.value });
+                          }
                         }}
                       />
                       <span className="text-sm text-white/90 group-hover:text-white transition-colors">

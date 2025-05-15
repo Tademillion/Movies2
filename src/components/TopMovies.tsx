@@ -55,7 +55,6 @@ const TopMovies = () => {
       </div>
     );
   }
-
   return (
     <div className="p-6 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen">
       <h1 className="text-4xl font-bold text-white mb-8 text-center">

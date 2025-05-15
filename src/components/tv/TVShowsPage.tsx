@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TVShowGrid from "./grid/TVShowGrid";
+import TvshowsContext from "./context/TvshowsContext";
 export interface TvshowsEndpointProps {
   endpoint: string;
   category?: string | null;
@@ -7,6 +8,10 @@ export interface TvshowsEndpointProps {
 }
 
 const TVShowsPage = ({ endpoint, category }: TvshowsEndpointProps) => {
+  const { state } = useContext(TvshowsContext);
+
+  console.log("state of context in page", state);
+
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 10; // This would come from your API
   return (

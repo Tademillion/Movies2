@@ -7,6 +7,7 @@ import { useContext, useReducer } from "react";
 import Tvshowsreducer from "../../tv/reducer/Tvshowsreducer";
 
 import MenuLinkcontext from "./MenuLinkcontext";
+import TvshowsContext from "../../tv/context/TvshowsContext";
 export interface TvshowsType {
   name: string;
   value: string;
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
-  const [state, dispatch] = useReducer(Tvshowsreducer, "popular");
+  const { state, dispatch } = useContext(TvshowsContext);
   const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
 
   const { error, genre, isLoading } = Genras();
@@ -103,11 +104,14 @@ const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
                         type="checkbox"
                         // value={tv.value}
                         className="form-checkbox h-5 w-5 rounded border-white/30 bg-white/10 text-indigo-400 focus:ring-indigo-400 focus:ring-offset-0"
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            // HandleTvCategory(tv);
-                            dispatch({ endpoint: tv.value });
-                          }
+                        // onChange={(event) => {
+                        //   dispatch({ endpoint: tv.value });
+                        //   // if (event.target.checked) {
+                        //   //   // HandleTvCategory(tv);
+                        //   // }
+                        // }}
+                        onChange={() => {
+                          dispatch({ endpoint: tv.value });
                         }}
                       />
                       <span className="text-sm text-white/90 group-hover:text-white transition-colors">

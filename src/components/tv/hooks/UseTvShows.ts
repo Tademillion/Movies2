@@ -4,7 +4,7 @@ import { TVShow } from "../../../types/api.types";
 import { TvshowsEndpointProps } from "../TVShowsPage";
 
  
- const UseTvShows=({endpoint,currentPage}:TvshowsEndpointProps)=>{ 
+ const UseTvShows=(endpoint:string,{currentPage}:TvshowsEndpointProps)=>{ 
  
 const endpoints=endpoint ? `tv/${endpoint}` : "tv/popular"
  return useQuery<TVShow[], Error>({

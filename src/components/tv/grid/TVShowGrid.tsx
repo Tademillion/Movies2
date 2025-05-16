@@ -6,17 +6,16 @@ import UseTvShows from "../hooks/UseTvShows";
 import { TvshowsEndpointProps } from "../TVShowsPage";
 import TvshowsContext from "../context/TvshowsContext";
 
-const TVShowGrid = ({ endpoint, currentPage }: TvshowsEndpointProps) => {
+const TVShowGrid = ({ currentPage }: TvshowsEndpointProps) => {
   const { state } = useContext(TvshowsContext);
   useEffect(() => {
-    // console.log("state of second passis ", state);
+    console.log("state of second passis ", state);
   }, [state]);
-
   const {
     error,
     isLoading,
     data: tvShows,
-  } = UseTvShows({ endpoint, currentPage });
+  } = UseTvShows(state, { currentPage });
   // const {
   //   data: tvShows,
   //   error,

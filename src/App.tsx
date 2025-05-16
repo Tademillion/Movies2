@@ -7,15 +7,15 @@ import UpcomingMovies from "./components/UpcomingMovies";
 import ErrorPage from "./components/common/ErrorPage";
 import Footer from "./components/layout/footer/Footer";
 import Navbar from "./components/layout/navbar/Navbar";
-import SideBar, { TvshowsType } from "./components/layout/sidebar/SideBar";
+import MenuLinkcontext from "./components/layout/sidebar/MenuLinkcontext";
+import MenulinkReducer from "./components/layout/sidebar/MenulinkReducer";
+import SideBar from "./components/layout/sidebar/SideBar";
 import ListsPage from "./components/lists/ListsPage";
 import MoviesPage from "./components/movies/MoviesPage";
 import PeoplePage from "./components/people/PeoplePage";
 import TVShowsPage from "./components/tv/TVShowsPage";
-import Tvshowsreducer from "./components/tv/reducer/Tvshowsreducer";
 import TvshowsContext from "./components/tv/context/TvshowsContext";
-import MenulinkReducer from "./components/layout/sidebar/MenulinkReducer";
-import MenuLinkcontext from "./components/layout/sidebar/MenuLinkcontext";
+import Tvshowsreducer from "./components/tv/reducer/Tvshowsreducer";
 
 function App() {
   //   global state management
@@ -34,20 +34,19 @@ function App() {
 
           <div className="flex bg-black">
             {/* Sidebar */}
+            <TvshowsContext.Provider value={{ state, dispatch }}>
+              <SideBar
+                handelCheck={(genre_id: number) => {
+                  setGenre(genre_id);
+                }}
+                HandleMovieSortBy={(data: string) => {
+                  setMoviesSortedby(data);
+                }}
+              />
 
-            <SideBar
-              handelCheck={(genre_id: number) => {
-                setGenre(genre_id);
-              }}
-              HandleMovieSortBy={(data: string) => {
-                setMoviesSortedby(data);
-              }}
-            />
-
-            <main className="flex-1 p-8 mt-20 mx-5 bg-red bg-white/5 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10">
-              <div className="container mx-auto">
-                {
-                  <TvshowsContext.Provider value={{ state, dispatch }}>
+              <main className="flex-1 p-8 mt-20 mx-5 bg-red bg-white/5 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10">
+                <div className="container mx-auto">
+                  {
                     <Routes>
                       <Route
                         path="/"
@@ -73,12 +72,7 @@ function App() {
 
                       <Route
                         path="/tv-shows"
-                        element={
-                          <TVShowsPage
-                            category={tvshowsCategory}
-                            endpoint={tvcategory}
-                          />
-                        }
+                        element={<TVShowsPage category={tvshowsCategory} />}
                       />
 
                       <Route path="/lists" element={<ListsPage />} />
@@ -91,10 +85,10 @@ function App() {
                       />
                       <Route path="*" element={<ErrorPage errorType="404" />} />
                     </Routes>
-                  </TvshowsContext.Provider>
-                }
-              </div>
-            </main>
+                  }
+                </div>
+              </main>
+            </TvshowsContext.Provider>
           </div>
         </MenuLinkcontext.Provider>
         {/* Footer */}

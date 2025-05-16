@@ -2,12 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import TVShowGrid from "./grid/TVShowGrid";
 import TvshowsContext from "./context/TvshowsContext";
 export interface TvshowsEndpointProps {
-  endpoint: string;
   category?: string | null;
   currentPage?: number | null;
 }
 
-const TVShowsPage = ({ endpoint, category }: TvshowsEndpointProps) => {
+const TVShowsPage = ({ category }: TvshowsEndpointProps) => {
   const { state } = useContext(TvshowsContext);
   // useEffect(() => {
   //   console.log("state of context", state);
@@ -26,7 +25,7 @@ const TVShowsPage = ({ endpoint, category }: TvshowsEndpointProps) => {
         </p>
       </div>
 
-      <TVShowGrid endpoint={endpoint} currentPage={currentPage} />
+      <TVShowGrid currentPage={currentPage} />
 
       <div className="flex justify-center items-center space-x-4 mt-8">
         <button

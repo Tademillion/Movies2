@@ -1,16 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import TVShowGrid from "./grid/TVShowGrid";
 import TvshowsContext from "./context/TvshowsContext";
-export interface TvshowsEndpointProps {
-  category?: string | null;
-  currentPage?: number | null;
-}
+import TvshowsPageContext from "./context/TvshowsPageContext";
 
-const TVShowsPage = ({ category }: TvshowsEndpointProps) => {
+const TVShowsPage = () => {
   const { state } = useContext(TvshowsContext);
-  // useEffect(() => {
-  //   console.log("state of context", state);
-  // }, [state]);
+  const { pagestate, pagedispatch } = useContext(TvshowsPageContext);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 10; // This would come from your API
   return (
@@ -18,30 +13,37 @@ const TVShowsPage = ({ category }: TvshowsEndpointProps) => {
       <div className="flex flex-col items-center mb-12">
         <h1 className="text-4xl font-bold text-white mb-4">
           {" "}
-          {category} TV Shows
+          {state} TV Shows
         </h1>
         <p className="text-white/70 text-lg max-w-2xl text-center">
           Discover and explore the most popular TV shows from around the world.
         </p>
       </div>
 
-      <TVShowGrid currentPage={currentPage} />
+      <TVShowGrid />
 
       <div className="flex justify-center items-center space-x-4 mt-8">
         <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          onClick={() => {
+            setCurrentPage((prev) => Math.max(prev - 1, 1));
+            pagedispatch({ type: "DEC" });
+          }}
           disabled={currentPage === 1}
           className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
         </button>
         <span className="text-white/80">
-          Page {currentPage} of {totalPages}
+          Page {pagestate} of {totalPages}
         </span>
         <button
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          }
+          onClick={() => {
+            {
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+
+              pagedispatch({ type: "INC" });
+            }
+          }}
           disabled={currentPage === totalPages}
           className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >

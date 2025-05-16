@@ -20,8 +20,7 @@ const [pages,setPage]=useState<MT[]>([]);
     params:{
         page:currentpage
     }
-  }).then(response=>{
-    console.log(response.request)
+  }).then(response=>{ 
     setPage(prev=>[...prev,{...response.data}])
   }).catch(error=>{
     return error

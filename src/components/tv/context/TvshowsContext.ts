@@ -1,9 +1,9 @@
 import React from 'react'
-import { TvshowsreducerProps } from '../reducer/Tvshowsreducer';
-
+import { TvshowsReducers } from '../reducer/Tvshowsreducer';
+ 
  interface Props{
     state:string;
-    dispatch:React.Dispatch<TvshowsreducerProps>;
+    dispatch:React.Dispatch<TvshowsReducers>;
  }
         const TvshowsContext=   React.createContext<Props>({} as Props)
 

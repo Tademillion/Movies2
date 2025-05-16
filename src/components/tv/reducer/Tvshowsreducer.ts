@@ -1,10 +1,10 @@
 
-export interface TvshowsreducerProps {
+export interface TvshowsReducers {
   endpoint: string;
 }
 
-const Tvshowsreducer = (state:string,action:TvshowsreducerProps):string => { 
- return action.endpoint
+const Tvshowsreducer = (state:string,action:TvshowsReducers):string => {
+  return action.endpoint
 }
 
 export default Tvshowsreducer

@@ -4,10 +4,10 @@ import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Genras from "./genras";
 import { useContext, useReducer } from "react";
-import Tvshowsreducer from "../../tv/reducer/Tvshowsreducer";
 
 import MenuLinkcontext from "./MenuLinkcontext";
 import TvshowsContext from "../../tv/context/TvshowsContext";
+import MoviesStand from "../../movies/Zustand/MoviesStand";
 export interface TvshowsType {
   name: string;
   value: string;
@@ -19,9 +19,9 @@ interface Props {
 }
 
 const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
-  const { state, dispatch } = useContext(TvshowsContext);
+  const { dispatch } = useContext(TvshowsContext);
   const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
-
+  const { updateGenre, updateSortedby, genre: genres } = MoviesStand();
   const { error, genre, isLoading } = Genras();
   {
     isLoading && <LoadingSpinner />;
@@ -81,6 +81,7 @@ const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
                         className="form-checkbox h-5 w-5 rounded border-white/30 bg-white/10 text-indigo-400 focus:ring-indigo-400 focus:ring-offset-0"
                         onChange={() => {
                           handelCheck(genres.id);
+                          updateGenre(genres.id);
                         }}
                       />
                       <span className="text-sm text-white/90 group-hover:text-white transition-colors">
@@ -141,6 +142,7 @@ const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
                         className="form-radio h-5 w-5 border-white/30 bg-white/10 text-indigo-400 focus:ring-indigo-400 focus:ring-offset-0"
                         onChange={() => {
                           HandleMovieSortBy(category.value);
+                          updateSortedby(category.value);
                         }}
                       />
                       <span className="text-sm text-white/90 group-hover:text-white transition-colors">

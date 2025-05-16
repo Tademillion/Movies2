@@ -1,19 +1,20 @@
 import { useState } from "react";
 import MovieCardGrid from "./card/MovieCardGrid";
 import TvshowsPagestand from "../tv/Zustand/TvshowsPagestand";
+import MoviesStand from "./Zustand/MoviesStand";
 
 export interface GenreProps {
   genre_id?: number | null;
   sortedBy?: string | null;
   page?: number | null;
 }
-const MoviesPage = ({ genre_id, sortedBy }: GenreProps) => {
+const MoviesPage = () => {
   const { page, Increment, Decrement } = TvshowsPagestand();
   return (
     <>
       <h1 className="text-4xl font-bold text-white mb-8">Popular Movies</h1>
       <div>
-        <MovieCardGrid sortedBy={sortedBy} genre_id={genre_id} />
+        <MovieCardGrid />
       </div>
       <div className="flex justify-center items-center space-x-4 mt-5">
         <button

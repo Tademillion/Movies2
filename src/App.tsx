@@ -47,25 +47,9 @@ function App() {
                 <div className="container mx-auto">
                   {
                     <Routes>
-                      <Route
-                        path="/"
-                        element={
-                          <MoviesPage
-                            sortedBy={MoviesSortedby}
-                            genre_id={genre}
-                          />
-                        }
-                      />
+                      <Route path="/" element={<MoviesPage />} />
 
-                      <Route
-                        path="/movies"
-                        element={
-                          <MoviesPage
-                            genre_id={genre}
-                            sortedBy={MoviesSortedby}
-                          />
-                        }
-                      />
+                      <Route path="/movies" element={<MoviesPage />} />
                       {/* <Route path="/people" element={<PeopleGrid />} /> */}
                       <Route path="/people" element={<PeoplePage />} />
 

@@ -3,11 +3,13 @@ import LoadingSpinner from "../../common/LoadingSpinner";
 import TvshowsPagestand from "../../tv/Zustand/TvshowsPagestand";
 import UseMovies from "../Hooks/useMovies";
 import { GenreProps } from "../MoviesPage";
+import MoviesStand from "../Zustand/MoviesStand";
 import MovieCard from "./MovieCard";
 
-const MovieCardGrid = ({ genre_id, sortedBy }: GenreProps) => {
+const MovieCardGrid = () => {
   const { page } = TvshowsPagestand();
-
+  const { sortedby: sortedBy, genre: genre_id } = MoviesStand();
+  // console.log(genre);
   const {
     error: Error,
     data: movies,

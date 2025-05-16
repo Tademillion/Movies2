@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import MenuLinkcontext from "../sidebar/MenuLinkcontext";
 interface ActiveTabProps {
   activeTab: (tabname: string) => void;
   incomingtab: string;
 }
 
-const Navbar = ({ activeTab, incomingtab }: ActiveTabProps) => {
-  const [active, setActiveTab] = useState("");
+const Navbar = () => {
+  const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
   const Navigate = useNavigate();
+  // useEffect(() => {
+  //   // console.log("existing tab ", active);
+  //   activeTab(active);
+  // }, [active]);
   useEffect(() => {
-    // console.log("existing tab ", active);
-    activeTab(active);
-  }, [active]);
-  useEffect(() => {
-    if (incomingtab === "Tvshows") {
+    if (activetablink === "Tvshows") {
       Navigate("/tv-shows");
     }
-    if (incomingtab === "Movies") {
+    if (activetablink === "Movies") {
       Navigate("/movies");
     }
-    if (incomingtab === "People") {
+    if (activetablink === "People") {
       Navigate("/people");
     }
-    activeTab(incomingtab);
-  }, [incomingtab]);
+  }, [activetablink]);
 
   return (
     <div>
@@ -67,7 +67,9 @@ const Navbar = ({ activeTab, incomingtab }: ActiveTabProps) => {
                     ? "text-white border-b-4 border-red border-solid"
                     : ""
                 }`}
-                onClick={() => setActiveTab("Movies")}
+                onClick={() => {
+                  linkDispatch("Movies");
+                }}
               >
                 Movies
                 <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>
@@ -79,7 +81,9 @@ const Navbar = ({ activeTab, incomingtab }: ActiveTabProps) => {
                     ? "text-white border-b-4 border-red border-solid"
                     : ""
                 }`}
-                onClick={() => setActiveTab("Tvshows")}
+                onClick={() => {
+                  linkDispatch("Tvshows");
+                }}
               >
                 TV Shows
                 <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>
@@ -91,7 +95,9 @@ const Navbar = ({ activeTab, incomingtab }: ActiveTabProps) => {
                     ? "text-white border-b-4 border-red border-solid"
                     : ""
                 }`}
-                onClick={() => setActiveTab("People")}
+                onClick={() => {
+                  linkDispatch("People");
+                }}
               >
                 People
                 <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>
@@ -103,7 +109,9 @@ const Navbar = ({ activeTab, incomingtab }: ActiveTabProps) => {
                     ? "text-white border-b-4 border-red border-solid"
                     : ""
                 }`}
-                onClick={() => activeTab("lists")}
+                onClick={() => {
+                  linkDispatch("lists");
+                }}
               >
                 My List
                 <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>

@@ -3,8 +3,10 @@ import { MoviesCategory, TvShowsConst } from "../../../constants/constants";
 import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Genras from "./genras";
-import { useReducer } from "react";
+import { useContext, useReducer } from "react";
 import Tvshowsreducer from "../../tv/reducer/Tvshowsreducer";
+
+import MenuLinkcontext from "./MenuLinkcontext";
 export interface TvshowsType {
   name: string;
   value: string;
@@ -12,21 +14,12 @@ export interface TvshowsType {
 
 interface Props {
   handelCheck: (genre_id: number) => void;
-  HandleTvCategory: (data: TvshowsType) => void;
   HandleMovieSortBy: (data: string) => void;
-  activeTab: string;
-  handleactiveTabs: (tabs: string) => void;
 }
 
-const SideBar = ({
-  handelCheck,
-  HandleTvCategory,
-  HandleMovieSortBy,
-  activeTab,
-  handleactiveTabs,
-}: Props) => {
-  // const { state, dispatch } = useReducer(Tvshowsreducer, "popular");
+const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
   const [state, dispatch] = useReducer(Tvshowsreducer, "popular");
+  const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
 
   const { error, genre, isLoading } = Genras();
   {
@@ -55,10 +48,11 @@ const SideBar = ({
                     <input
                       type="radio"
                       name="category"
-                      checked={activeTab === category} // Compare with the state
+                      checked={activetablink === category} // Compare with the state
                       value={category}
                       onChange={() => {
-                        handleactiveTabs(category);
+                        // handleactiveTabs(category);
+                        linkDispatch(category);
                       }}
                       className="form-radio h-5 w-5 border-white/30 bg-white/10 text-indigo-400 focus:ring-indigo-400 focus:ring-offset-0"
                     />
@@ -69,7 +63,7 @@ const SideBar = ({
                 ))}
               </div>
             </div>
-            {activeTab === "Movies" && (
+            {activetablink === "Movies" && (
               <div className="space-y-4">
                 <h4 className="text-sm font-semibold text-white/80">
                   {" "}
@@ -97,7 +91,7 @@ const SideBar = ({
               </div>
             )}
 
-            {activeTab === "Tvshows" && (
+            {activetablink === "Tvshows" && (
               <div className="space-y-4">
                 <h4 className="text-sm font-semibold text-white/80">
                   Tv-Shows Filters
@@ -125,7 +119,7 @@ const SideBar = ({
               </div>
             )}
 
-            {activeTab === "Movies" && (
+            {activetablink === "Movies" && (
               <div className="space-y-4">
                 <h4 className="text-sm font-semibold text-white/80">
                   {" "}

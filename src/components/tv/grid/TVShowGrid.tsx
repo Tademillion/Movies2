@@ -9,8 +9,9 @@ import TvshowsContext from "../context/TvshowsContext";
 const TVShowGrid = ({ endpoint, currentPage }: TvshowsEndpointProps) => {
   const { state } = useContext(TvshowsContext);
   useEffect(() => {
-    console.log("state of second passis ", state);
+    // console.log("state of second passis ", state);
   }, [state]);
+
   const {
     error,
     isLoading,

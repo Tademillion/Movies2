@@ -14,96 +14,89 @@ import PeoplePage from "./components/people/PeoplePage";
 import TVShowsPage from "./components/tv/TVShowsPage";
 import Tvshowsreducer from "./components/tv/reducer/Tvshowsreducer";
 import TvshowsContext from "./components/tv/context/TvshowsContext";
+import MenulinkReducer from "./components/layout/sidebar/MenulinkReducer";
+import MenuLinkcontext from "./components/layout/sidebar/MenuLinkcontext";
 
 function App() {
   //   global state management
   const [state, dispatch] = useReducer(Tvshowsreducer, "popular");
-
+  const [activetablink, linkDispatch] = useReducer(MenulinkReducer, "Movies");
   const [genre, setGenre] = useState<number | null>(null);
   const [tvcategory, setTvCategory] = useState<string>("popular");
   const [tvshowsCategory, setTvshowsCategory] = useState<string>("Popular");
   const [MoviesSortedby, setMoviesSortedby] = useState<string | null>(null);
-  const [active, setActiveTab] = useState("Movies");
-  const [sidetab, setSideTab] = useState("Movies");
   return (
     <Router>
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-        <Navbar
-          activeTab={(tabname: string) => {
-            setActiveTab(tabname);
-          }}
-          incomingtab={sidetab}
-        />
-        {/* Main Content */}
+        <MenuLinkcontext.Provider value={{ activetablink, linkDispatch }}>
+          <Navbar />
+          {/* Main Content */}
 
-        <div className="flex bg-black">
-          {/* Sidebar */}
-          <SideBar
-            handelCheck={(genre_id: number) => {
-              setGenre(genre_id);
-            }}
-            HandleTvCategory={(endpoint: TvshowsType) => {
-              setTvCategory(endpoint.value);
-              setTvshowsCategory(endpoint.name);
-            }}
-            HandleMovieSortBy={(data: string) => {
-              setMoviesSortedby(data);
-            }}
-            activeTab={active}
-            handleactiveTabs={(data: string) => {
-              setSideTab(data);
-            }}
-          />
-          <main className="flex-1 p-8 mt-20 mx-5 bg-red bg-white/5 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10">
-            <div className="container mx-auto">
-              {
-                <TvshowsContext.Provider value={{ state, dispatch }}>
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={
-                        <MoviesPage
-                          sortedBy={MoviesSortedby}
-                          genre_id={genre}
-                        />
-                      }
-                    />
+          <div className="flex bg-black">
+            {/* Sidebar */}
 
-                    <Route
-                      path="/movies"
-                      element={
-                        <MoviesPage
-                          genre_id={genre}
-                          sortedBy={MoviesSortedby}
-                        />
-                      }
-                    />
-                    {/* <Route path="/people" element={<PeopleGrid />} /> */}
-                    <Route path="/people" element={<PeoplePage />} />
+            <SideBar
+              handelCheck={(genre_id: number) => {
+                setGenre(genre_id);
+              }}
+              HandleMovieSortBy={(data: string) => {
+                setMoviesSortedby(data);
+              }}
+            />
 
-                    <Route
-                      path="/tv-shows"
-                      element={
-                        <TVShowsPage
-                          category={tvshowsCategory}
-                          endpoint={tvcategory}
-                        />
-                      }
-                    />
+            <main className="flex-1 p-8 mt-20 mx-5 bg-red bg-white/5 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10">
+              <div className="container mx-auto">
+                {
+                  <TvshowsContext.Provider value={{ state, dispatch }}>
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={
+                          <MoviesPage
+                            sortedBy={MoviesSortedby}
+                            genre_id={genre}
+                          />
+                        }
+                      />
 
-                    <Route path="/lists" element={<ListsPage />} />
-                    <Route path="/top250" element={<TopMovies />} />
-                    <Route path="/trending" element={<TrendingMovies />} />
-                    <Route path="/upcoming" element={<UpcomingMovies />} />
-                    <Route path="/popular-people" element={<PopularPeople />} />
-                    <Route path="*" element={<ErrorPage errorType="404" />} />
-                  </Routes>
-                </TvshowsContext.Provider>
-              }
-            </div>
-          </main>
-        </div>
+                      <Route
+                        path="/movies"
+                        element={
+                          <MoviesPage
+                            genre_id={genre}
+                            sortedBy={MoviesSortedby}
+                          />
+                        }
+                      />
+                      {/* <Route path="/people" element={<PeopleGrid />} /> */}
+                      <Route path="/people" element={<PeoplePage />} />
 
+                      <Route
+                        path="/tv-shows"
+                        element={
+                          <TVShowsPage
+                            category={tvshowsCategory}
+                            endpoint={tvcategory}
+                          />
+                        }
+                      />
+
+                      <Route path="/lists" element={<ListsPage />} />
+                      <Route path="/top250" element={<TopMovies />} />
+                      <Route path="/trending" element={<TrendingMovies />} />
+                      <Route path="/upcoming" element={<UpcomingMovies />} />
+                      <Route
+                        path="/popular-people"
+                        element={<PopularPeople />}
+                      />
+                      <Route path="*" element={<ErrorPage errorType="404" />} />
+                    </Routes>
+                  </TvshowsContext.Provider>
+                }
+              </div>
+            </main>
+          </div>
+        </MenuLinkcontext.Provider>
         {/* Footer */}
         <Footer />
       </div>

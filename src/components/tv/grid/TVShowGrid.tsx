@@ -3,14 +3,14 @@ import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import TVShowCard from "../card/TVShowCard";
 import TvshowsContext from "../context/TvshowsContext";
-import TvshowsPageContext from "../context/TvshowsPageContext";
 import UseTvShows from "../hooks/UseTvShows";
+import TvshowsPagestand from "../Zustand/TvshowsPagestand";
 
 const TVShowGrid = () => {
   const { state } = useContext(TvshowsContext);
-  const { pagestate } = useContext(TvshowsPageContext);
+  const { page } = TvshowsPagestand();
 
-  const { error, isLoading, data: tvShows } = UseTvShows(state, pagestate);
+  const { error, isLoading, data: tvShows } = UseTvShows(state, page);
   // const {
   //   data: tvShows,
   //   error,

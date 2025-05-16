@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import TvshowsContext from "./context/TvshowsContext";
-import TvshowsPageContext from "./context/TvshowsPageContext";
 import TVShowGrid from "./grid/TVShowGrid";
 import TvshowsPagestand from "./Zustand/TvshowsPagestand";
 

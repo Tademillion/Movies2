@@ -1,12 +1,13 @@
-import { Movie } from "../../../types/api.types";
 import ErrorPage from "../../common/ErrorPage";
 import LoadingSpinner from "../../common/LoadingSpinner";
-import UseGenericMovies from "../Hooks/UseGenericMovies";
+import TvshowsPagestand from "../../tv/Zustand/TvshowsPagestand";
 import UseMovies from "../Hooks/useMovies";
 import { GenreProps } from "../MoviesPage";
 import MovieCard from "./MovieCard";
 
-const MovieCardGrid = ({ genre_id, sortedBy, page }: GenreProps) => {
+const MovieCardGrid = ({ genre_id, sortedBy }: GenreProps) => {
+  const { page } = TvshowsPagestand();
+
   const {
     error: Error,
     data: movies,

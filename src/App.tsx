@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import PopularPeople from "./components/PopularPeople";
 import TopMovies from "./components/TopMovies";
@@ -16,14 +16,12 @@ import PeoplePage from "./components/people/PeoplePage";
 import TVShowsPage from "./components/tv/TVShowsPage";
 import TvshowsContext from "./components/tv/context/TvshowsContext";
 import Tvshowsreducer from "./components/tv/reducer/Tvshowsreducer";
-import TvshowsPagereducers from "./components/tv/reducer/TvshowsPagereducers";
 
 function App() {
   //   global state management
   const [state, dispatch] = useReducer(Tvshowsreducer, "popular");
   const [activetablink, linkDispatch] = useReducer(MenulinkReducer, "Movies");
-  const [genre, setGenre] = useState<number | null>(null);
-  const [MoviesSortedby, setMoviesSortedby] = useState<string | null>(null);
+
   return (
     <Router>
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -35,7 +33,6 @@ function App() {
             {/* Sidebar */}
             <TvshowsContext.Provider value={{ state, dispatch }}>
               <SideBar />
-
               <main className="flex-1 p-8 mt-20 mx-5 bg-red bg-white/5 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10">
                 <div className="container mx-auto">
                   {
@@ -43,9 +40,7 @@ function App() {
                       <Route path="/" element={<MoviesPage />} />
 
                       <Route path="/movies" element={<MoviesPage />} />
-                      {/* <Route path="/people" element={<PeopleGrid />} /> */}
                       <Route path="/people" element={<PeoplePage />} />
-
                       <Route path="/tv-shows" element={<TVShowsPage />} />
 
                       <Route path="/lists" element={<ListsPage />} />

@@ -8,7 +8,7 @@ import { create } from 'zustand'
  }
 
 
-const MoviesStand = create<Props>(set=>({
+const MoviesStand =   create<Props>(set=>({
     genre:null,
     sortedby:null,
     updateGenre:(data)=>set(()=>({genre:data})) ,

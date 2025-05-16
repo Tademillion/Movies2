@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MenuLinkcontext from "../sidebar/MenuLinkcontext";
+import AuthorizationStand from "../../common/AuthorizationStand";
 interface ActiveTabProps {
   activeTab: (tabname: string) => void;
   incomingtab: string;
 }
 
 const Navbar = () => {
+  const { Login, isAuthenticated, logout } = AuthorizationStand();
   const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
   const Navigate = useNavigate();
   // useEffect(() => {
@@ -116,6 +118,30 @@ const Navbar = () => {
                 My List
                 <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>
               </Link>
+              {!isAuthenticated && (
+                <Link
+                  to="/#"
+                  className="inline-block text-white/90   hover:text-white font-medium transition-colors duration-300 relative overflow-hidden group"
+                  onClick={() => {
+                    Login();
+                  }}
+                >
+                  Login
+                  <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>
+                </Link>
+              )}
+              {isAuthenticated && (
+                <Link
+                  to="/#"
+                  className="inline-block text-white/90   hover:text-white font-medium transition-colors duration-300 relative overflow-hidden group"
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  Logout
+                  <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>
+                </Link>
+              )}
             </div>
           </div>
         </div>

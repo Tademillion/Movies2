@@ -34,14 +34,7 @@ function App() {
           <div className="flex bg-black">
             {/* Sidebar */}
             <TvshowsContext.Provider value={{ state, dispatch }}>
-              <SideBar
-                handelCheck={(genre_id: number) => {
-                  setGenre(genre_id);
-                }}
-                HandleMovieSortBy={(data: string) => {
-                  setMoviesSortedby(data);
-                }}
-              />
+              <SideBar />
 
               <main className="flex-1 p-8 mt-20 mx-5 bg-red bg-white/5 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10">
                 <div className="container mx-auto">

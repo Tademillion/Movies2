@@ -18,7 +18,7 @@ interface Props {
   HandleMovieSortBy: (data: string) => void;
 }
 
-const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
+const SideBar = () => {
   const { dispatch } = useContext(TvshowsContext);
   const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
   const { updateGenre, updateSortedby, genre: genres } = MoviesStand();
@@ -80,7 +80,6 @@ const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
                         type="checkbox"
                         className="form-checkbox h-5 w-5 rounded border-white/30 bg-white/10 text-indigo-400 focus:ring-indigo-400 focus:ring-offset-0"
                         onChange={() => {
-                          handelCheck(genres.id);
                           updateGenre(genres.id);
                         }}
                       />
@@ -141,7 +140,6 @@ const SideBar = ({ handelCheck, HandleMovieSortBy }: Props) => {
                         name="sort"
                         className="form-radio h-5 w-5 border-white/30 bg-white/10 text-indigo-400 focus:ring-indigo-400 focus:ring-offset-0"
                         onChange={() => {
-                          HandleMovieSortBy(category.value);
                           updateSortedby(category.value);
                         }}
                       />

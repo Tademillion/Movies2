@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import TVShowGrid from "./grid/TVShowGrid";
+import { useContext, useState } from "react";
 import TvshowsContext from "./context/TvshowsContext";
 import TvshowsPageContext from "./context/TvshowsPageContext";
+import TVShowGrid from "./grid/TVShowGrid";
+import TvshowsPagestand from "./Zustand/TvshowsPagestand";
 
 const TVShowsPage = () => {
   const { state } = useContext(TvshowsContext);
-  const { pagestate, pagedispatch } = useContext(TvshowsPageContext);
-  const [currentPage, setCurrentPage] = useState(1);
+  const { page, Increment, Decrement } = TvshowsPagestand();
   const totalPages = 10; // This would come from your API
   return (
     <div className="container mx-auto">
@@ -25,26 +25,23 @@ const TVShowsPage = () => {
       <div className="flex justify-center items-center space-x-4 mt-8">
         <button
           onClick={() => {
-            setCurrentPage((prev) => Math.max(prev - 1, 1));
-            pagedispatch({ type: "DEC" });
+            Decrement();
           }}
-          disabled={currentPage === 1}
+          disabled={page === 1}
           className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
         </button>
         <span className="text-white/80">
-          Page {pagestate} of {totalPages}
+          Page {page} of {totalPages}
         </span>
         <button
           onClick={() => {
             {
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-
-              pagedispatch({ type: "INC" });
+              Increment();
             }
           }}
-          disabled={currentPage === totalPages}
+          disabled={page === totalPages}
           className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next

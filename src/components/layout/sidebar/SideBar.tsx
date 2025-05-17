@@ -8,6 +8,7 @@ import { useContext, useReducer } from "react";
 import MenuLinkcontext from "./MenuLinkcontext";
 import TvshowsContext from "../../tv/context/TvshowsContext";
 import MoviesStand from "../../movies/Zustand/MoviesStand";
+import AuthContext, { UseAuth } from "../../common/AuthContext";
 export interface TvshowsType {
   name: string;
   value: string;
@@ -22,6 +23,7 @@ const SideBar = () => {
   const { dispatch } = useContext(TvshowsContext);
   const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
   const { updateGenre, updateSortedby, genre: genres } = MoviesStand();
+
   const { error, genre, isLoading } = Genras();
   {
     isLoading && <LoadingSpinner />;
@@ -29,6 +31,7 @@ const SideBar = () => {
   {
     error && <ErrorPage />;
   }
+
   return (
     <div>
       <aside className="top-15 sticky w-64 h-screen p-6 bg-gradient-to-b from-indigo-900/90 via-purple-900/90 to-pink-900/90 backdrop-blur-sm border-r border-white/10">

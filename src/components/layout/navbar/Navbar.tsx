@@ -2,15 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MenuLinkcontext from "../sidebar/MenuLinkcontext";
 import AuthorizationStand from "../../common/AuthorizationStand";
+import { UseAuth } from "../../common/AuthContext";
 interface ActiveTabProps {
   activeTab: (tabname: string) => void;
   incomingtab: string;
 }
 
 const Navbar = () => {
-  const { Login, isAuthenticated, logout } = AuthorizationStand();
+  // const { Login, isAuthenticated, logout } = AuthorizationStand();
   const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
   const Navigate = useNavigate();
+  const { isLoggin, login, logout } = UseAuth();
   // useEffect(() => {
   //   // console.log("existing tab ", active);
   //   activeTab(active);
@@ -118,23 +120,24 @@ const Navbar = () => {
                 My List
                 <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>
               </Link>
-              {!isAuthenticated && (
+              {!isLoggin && (
                 <Link
                   to="/#"
                   className="inline-block text-white/90   hover:text-white font-medium transition-colors duration-300 relative overflow-hidden group"
                   onClick={() => {
-                    Login();
+                    login("admin", "admin");
                   }}
                 >
                   Login
                   <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-white transition-all duration-300 origin-left group-hover:w-full"></span>
                 </Link>
               )}
-              {isAuthenticated && (
+              {isLoggin && (
                 <Link
                   to="/#"
                   className="inline-block text-white/90   hover:text-white font-medium transition-colors duration-300 relative overflow-hidden group"
                   onClick={() => {
+                    // logout();
                     logout();
                   }}
                 >

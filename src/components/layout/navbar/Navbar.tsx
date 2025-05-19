@@ -1,22 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import MenuLinkcontext from "../sidebar/MenuLinkcontext";
-import AuthorizationStand from "../../common/AuthorizationStand";
 import { UseAuth } from "../../common/AuthContext";
-interface ActiveTabProps {
-  activeTab: (tabname: string) => void;
-  incomingtab: string;
-}
+import MenuLinkcontext from "../sidebar/MenuLinkcontext";
 
 const Navbar = () => {
   // const { Login, isAuthenticated, logout } = AuthorizationStand();
   const { activetablink, linkDispatch } = useContext(MenuLinkcontext);
   const Navigate = useNavigate();
   const { isLoggin, login, logout } = UseAuth();
-  // useEffect(() => {
-  //   // console.log("existing tab ", active);
-  //   activeTab(active);
-  // }, [active]);
+
   useEffect(() => {
     if (activetablink === "Tvshows") {
       Navigate("/tv-shows");

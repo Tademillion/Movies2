@@ -16,6 +16,7 @@ const queryclient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryclient}>
+      {/* this is nothing but its configuration of  react query  it includes usequery ,useinfinitequery */}
       <AuthContextProvider>
         <App />
       </AuthContextProvider>
